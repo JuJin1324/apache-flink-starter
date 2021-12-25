@@ -100,3 +100,19 @@
 > </dependency>
 > ```
 
+## 실행
+### IDE
+> IntelliJ 에서는 메인함수 실행하면 된다.
+
+### Flink cluster
+> Flink 1.14.2 버전에서 현재 Java 11 버전 지원안함으로 Java 8 버전을 이용해서 mvn package 한다.
+> main 클래스가 1개인 경우: `flink run [jar 파일명].jar`
+> 예시) `flink run apache-flink-starter-0.1-SNAPSHOT.jar`
+> 
+> main 클래스가 여러개여서 특정 main 클래스를 실행할 경우: `flink run -c [패키지명].[main 클래스 명] [jar 파일명].jar`  
+> 예시) `flink run -c practice.apache.flink.StreamingJob apache-flink-starter-0.1-SNAPSHOT.jar`
+>
+> `localhost:8081` 접속   
+> 접속 안될 시 flink 설치 경로에서 `./bin/start-cluster.sh` 실행   
+> 좌측 메뉴 맨 아래 `Submit New Job` -> `+ Add New` 를 통해서 maven build 한 jar 파일 선택해서 submit  
+
