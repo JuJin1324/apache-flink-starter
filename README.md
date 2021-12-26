@@ -147,17 +147,41 @@
 > centOS  
 > ```bash
 > bash ./flink-1.14.2-bin-scala_2.12/bin/start-cluster.sh
-> ```
-> 
-> 3.Job 제출    
-> Flink 1.14.2 버전에서 현재 Java 11 버전 지원안함으로 Java 8 버전을 이용해서 mvn package 한다.  
-> 3-1.main 클래스가 1개인 경우: `flink run [jar 파일명].jar`  
-> 예시) `flink run apache-flink-starter-0.1-SNAPSHOT.jar`  
-> 
-> 3-2.main 클래스가 여러개여서 특정 main 클래스를 실행할 경우: `flink run -c [패키지명].[main 클래스 명] [jar 파일명].jar`    
-> 예시) `flink run -c practice.apache.flink.StreamingJob apache-flink-starter-0.1-SNAPSHOT.jar`  
->
-> 3-3.Web UI 를 통한 제출  
-> `localhost:8081` 접속     
-> 좌측 메뉴 맨 아래 `Submit New Job` -> `+ Add New` 를 통해서 maven build 한 jar 파일 선택해서 submit    
+> ``` 
 
+## 운영
+### Job 제출
+> Flink 1.14.2 버전에서 현재 Java 11 버전 지원안함으로 Java 8 버전을 이용해서 mvn package 한다.  
+> 1.Command Line 을 통한 제출  
+> `./bin/flink run <jar 파일명>.jar`  
+> 예시) `./bin/flink run apache-flink-starter-0.1-SNAPSHOT.jar`
+>
+> `-c`: Main class 지정    
+> 예시) `./bin/flink run -c practice.apache.flink.StreamingJob apache-flink-starter-0.1-SNAPSHOT.jar`
+>
+> `-d`: Daemon 실행      
+> 
+> `-p <갯수>`: 연산자 병렬 실행 갯수   
+> 주의) 소스 코드에 StreamExecutionEnvironment 를 통해서 직접 병렬 실행 갯수를 설정했다면 해당 설정은 적용이 안된다.
+> 
+> `-m <서버 IP>:<Port>`: Job 을 제출할 Master 서버 지정  
+>
+> 2.Web UI 를 통한 제출  
+> `localhost:8081` 접속     
+> 좌측 메뉴 맨 아래 `Submit New Job` -> `+ Add New` 를 통해서 maven build 한 jar 파일 선택해서 submit
+
+### 실행 중인 애플리케이션 목록 보기
+> `./bin/flink list -r`
+
+### Flink Cluster 개요 확인
+> Master 서버(Node) 가 localhost 라고 가정   
+> `http GET http://localhost:8081/v1/overview`
+
+### Log
+> 실행 로그 위치: 
+
+## Flink Cluster 설정
+### Master Node
+> Master 프로세스는 주로 애플리케이션 자원 관리 및 조율을 담당함으로 적당한 수준의 메모리만 필요하다.   
+> `flink-conf.yaml` 에서 `jobmanager.memory.process.size` 는 기본 1600MB 로 설정되어 있으며 많은 애플리케이션을 관리할 경우 메모리를 늘려 사용한다.  
+> 
