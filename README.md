@@ -105,14 +105,59 @@
 > IntelliJ 에서는 메인함수 실행하면 된다.
 
 ### Flink cluster
-> Flink 1.14.2 버전에서 현재 Java 11 버전 지원안함으로 Java 8 버전을 이용해서 mvn package 한다.
-> main 클래스가 1개인 경우: `flink run [jar 파일명].jar`
-> 예시) `flink run apache-flink-starter-0.1-SNAPSHOT.jar`
+> 0.flink 설치     
+> macOS: `brew install apache-flink`     
 > 
-> main 클래스가 여러개여서 특정 main 클래스를 실행할 경우: `flink run -c [패키지명].[main 클래스 명] [jar 파일명].jar`  
-> 예시) `flink run -c practice.apache.flink.StreamingJob apache-flink-starter-0.1-SNAPSHOT.jar`
+> centOS   
+> ```bash
+> wget https://dlcdn.apache.org/flink/flink-1.14.2/flink-1.14.2-bin-scala_2.12.tgz
+> tar xfz ./flink-1.14.2-bin-scala_2.12.tgz
+> ```
+> 
+> 1.클러스터 설정  
+> 주의) 다중 서버(Multi Node) 인 경우만 설정한다. 로컬 실행인 경우에는 넘어가자.  
+> 이 설정은 모든 서버(Node) 에 동일하게 적용한다.    
+> 아래 설정은 Master 서버 1대(192.168.1.3) 와 Worker 서버 2대(192.168.1.4, 192.168.1.5) 를 가정하고 설정하였다.  
+> ```bash
+> cd ./flink-1.14.2-bin-scala_2.12/conf
+> 
+> # 현재 서버 IP 주소로 변경
+> vi flink-conf.yaml
+> jobmanager.rpc.address: 192.168.1.3
+> :wq
+> 
+> # master 서버 IP localhost -> IP 로 교체
+> vi masters
+> 192.168.1.3:8081
+> :wq
+> 
+> # worker 서버 IP 주소 추가
+> vi workers
+> 192.168.1.4
+> 192.168.1.5
+> :wq
+> ```
+> 
+> 2.클러스터 실행  
+> 클러스터 실행은 Master 서버(Node)에서만 하면 된다.  
+> macOS  
+> ```bash
+> bash /usr/local/Cellar/apache-flink/1.14.2/libexec/bin/start-cluster.sh
+> ```
+> centOS  
+> ```bash
+> bash ./flink-1.14.2-bin-scala_2.12/bin/start-cluster.sh
+> ```
+> 
+> 3.Job 제출    
+> Flink 1.14.2 버전에서 현재 Java 11 버전 지원안함으로 Java 8 버전을 이용해서 mvn package 한다.  
+> 3-1.main 클래스가 1개인 경우: `flink run [jar 파일명].jar`  
+> 예시) `flink run apache-flink-starter-0.1-SNAPSHOT.jar`  
+> 
+> 3-2.main 클래스가 여러개여서 특정 main 클래스를 실행할 경우: `flink run -c [패키지명].[main 클래스 명] [jar 파일명].jar`    
+> 예시) `flink run -c practice.apache.flink.StreamingJob apache-flink-starter-0.1-SNAPSHOT.jar`  
 >
-> `localhost:8081` 접속   
-> 접속 안될 시 flink 설치 경로에서 `./bin/start-cluster.sh` 실행   
-> 좌측 메뉴 맨 아래 `Submit New Job` -> `+ Add New` 를 통해서 maven build 한 jar 파일 선택해서 submit  
+> 3-3.Web UI 를 통한 제출  
+> `localhost:8081` 접속     
+> 좌측 메뉴 맨 아래 `Submit New Job` -> `+ Add New` 를 통해서 maven build 한 jar 파일 선택해서 submit    
 
