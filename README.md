@@ -178,10 +178,42 @@
 > `http GET http://localhost:8081/v1/overview`
 
 ### Log
-> 실행 로그 위치: 
+> 실행 로그 위치: log4j2.properties 에 설정된 위치
 
 ## Flink Cluster 설정
 ### Master Node
 > Master 프로세스는 주로 애플리케이션 자원 관리 및 조율을 담당함으로 적당한 수준의 메모리만 필요하다.   
 > `flink-conf.yaml` 에서 `jobmanager.memory.process.size` 는 기본 1600MB 로 설정되어 있으며 많은 애플리케이션을 관리할 경우 메모리를 늘려 사용한다.  
+
+### 병렬 설정
+> 애플리케이션을 로컬에서 실행 시 기본 병렬 값은 로컬 머신의 CPU 갯수만큼이다.
+> (코어가 아닌 스레드 갯수, 예를 들어 CPU 가 4코어 8쓰레드 이면 8개의 연산자 태스크가 생성된다.)   
+> 클러스터 환경에서 애플리케이션을 제출할 시 병렬 값을 지정해서 제출하지 않으면 기본 1개의 병렬 값을 가진다.
+> 
+> 보통 연산자의 병렬 값은 실행 환경 기본 값의 상댓 값으로 정의하는 것이 좋다.
+> ```java
+> int defaultP = env.getParallelism();
+> dataStream
+>   .map(r -> new SensorReading(r.id, r.timestamp, (r.temperature - 32) * (5.0 / 9.0)))
+>   .keyBy(r -> r.id)
+>   .timeWindow(Time.seconds(1))
+>   .apply(new TemperatureAverager())
+>   .setParallelism(defaultP * 2);     // 기본 값의 상댓 값으로 정의
+>```
+
+### RichFunction
+> Flink 는 모든 함수 객체를 자바 직렬화를 이용해 직렬화한 후 작업 태스크로 전송한다. 함수에 포함된 모든 것은 Serializable 이어야 한다.  
+> 함수가 직렬화 불가능한 객체 인스턴스를 포홤할 때는 RichFunction 으로 함수를 구현하고 직렬화 불가능한 필드를 open() 메서드에서 초기화한다.
+> 직렬화가 불가능한 객체 인스터스에는 앞에 transient 키워드를 붙여 직렬화 제외 객체임을 표시한다.   
+> 
+> open() 메서드의 Configuration 매개 변수는 DataSet API 에서만 사용됨으로 DataStream API 에서는 무시한다.
+
+### Watermark
+> 워터마크는 워터마크보다 작거나 같은 타임스탬프를 가진 이벤트가 더 없을 것이라고 연산자에게 알려준다.   
+>
+> 가능하면 타임스탬프 할당과 워터마크 생성을 Source 근처 또는 SourceFunction 안에서 하는 것이 가장 좋다.(다른 곳에서 하면 이벤트 순서가 변경될 수 있다.)
+>
+> flink 1.12 버전 이후부터는 이벤트 타임 특성 설정을 위해서 `env.setStreamTimeCharacteristic(TimeChracteristic.EventTime);` 를 선언할 필요가 없다.
+> default 로 EventTime 특성으로 설정되어있다.
+> 
 > 
