@@ -216,4 +216,11 @@
 > flink 1.12 버전 이후부터는 이벤트 타임 특성 설정을 위해서 `env.setStreamTimeCharacteristic(TimeChracteristic.EventTime);` 를 선언할 필요가 없다.
 > default 로 EventTime 특성으로 설정되어있다.
 > 
+
+## 용어 정리
+> upper bound: 연착 상한 시간
 > 
+
+## 참조사이트
+> [이벤트 시간 처리(Event Time Processing)와 워터마크(Watermark)](https://seamless.tistory.com/99)
+> [Flink 시작하기 #1 소개 (Basic Concept)](https://gyrfalcon.tistory.com/entry/Flink-1-%EC%86%8C%EA%B0%9C-Basic-Concept)
