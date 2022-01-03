@@ -22,6 +22,7 @@ public class SortWindowFunction extends ProcessWindowFunction<SampleData, Sample
 
         List<SampleData> dataList = new ArrayList<>();
         in.iterator().forEachRemaining(dataList::add);
+//        System.out.println("dataList = " + dataList);
 
         dataList.stream()
                 .sorted(SampleData.orderByTimestampASC())

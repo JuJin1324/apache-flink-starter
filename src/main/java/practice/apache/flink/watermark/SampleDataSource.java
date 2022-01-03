@@ -15,6 +15,8 @@ public class SampleDataSource implements SourceFunction<SampleData> {
     public void run(SourceContext<SampleData> ctx) throws Exception {
         long millis = 5000L;
         LocalDateTime now = LocalDateTime.now();
+
+        Thread.sleep(millis);
         System.out.println("out 1-5");
         ctx.collect(new SampleData(1L, "1-5", toEpochMillis(now.plusMinutes(4L))));
         Thread.sleep(millis);
