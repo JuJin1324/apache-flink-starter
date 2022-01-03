@@ -1,10 +1,9 @@
-package practice.apache.flink.watermark;
+package practice.apache.flink.watermark.jobs;
 
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.streaming.api.windowing.assigners.ProcessingTimeSessionWindows;
-import org.apache.flink.streaming.api.windowing.time.Time;
+import practice.apache.flink.watermark.*;
 
 import java.time.Duration;
 
@@ -12,11 +11,10 @@ import java.time.Duration;
  * Created by Yoo Ju Jin(jujin1324@daum.net)
  * Created Date : 2022/01/01
  */
-public class SortByWatermarkAndTimestampJob {
+public class SortByProcessTimeWindowJob {
 
     public static void main(String[] args) throws Exception {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        env.getConfig().setAutoWatermarkInterval(2000);
 
         WatermarkStrategy<SampleData> watermarkStrategy = WatermarkStrategy
                 .<SampleData>forBoundedOutOfOrderness(Duration.ofMinutes(1))
@@ -33,9 +31,9 @@ public class SortByWatermarkAndTimestampJob {
         DataStream<SampleData> sortedDateStream = dataStream
                 .keyBy(SampleData::getKey)
 //                .window(TumblingProcessingTimeWindows.of(Time.minutes(1)))
-                .window(new OneMinutesProcessTimeWindows())
-                .process(new SortWindowFunction())
-                .name("sort by watermark and timestamp")
+                .window(new CustomProcessTimeWindows())
+                .process(new SortByTimeWindowFunction())
+                .name("sort by process time")
                 .setParallelism(4);
 
         sortedDateStream
@@ -44,6 +42,6 @@ public class SortByWatermarkAndTimestampJob {
                 .name("ordered print")
                 .setParallelism(4);
 
-        env.execute("Watermark Example");
+        env.execute("Sort by process time window");
     }
 }

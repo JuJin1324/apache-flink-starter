@@ -6,14 +6,13 @@ import org.apache.flink.util.Collector;
 
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 /**
  * Created by Yoo Ju Jin(jujin1324@daum.net)
  * Created Date : 2022/01/01
  */
-public class SortWindowFunction extends ProcessWindowFunction<SampleData, SampleData, Long, TimeWindow> {
+public class SortByTimeWindowFunction extends ProcessWindowFunction<SampleData, SampleData, Long, TimeWindow> {
 
     @Override
     public void process(Long key, ProcessWindowFunction<SampleData, SampleData, Long, TimeWindow>.Context context, Iterable<SampleData> in, Collector<SampleData> out) throws Exception {

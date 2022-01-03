@@ -13,7 +13,7 @@ public class SampleDataSource implements SourceFunction<SampleData> {
 
     @Override
     public void run(SourceContext<SampleData> ctx) throws Exception {
-        long millis = 5000L;
+        long millis = 1000L;
         LocalDateTime now = LocalDateTime.now();
 
         Thread.sleep(millis);
@@ -43,6 +43,16 @@ public class SampleDataSource implements SourceFunction<SampleData> {
         Thread.sleep(millis);
         System.out.println("out 1-8");
         ctx.collect(new SampleData(1L, "1-8", toEpochMillis(now.plusMinutes(7L))));
+        Thread.sleep(millis);
+        System.out.println("out 1-12");
+        ctx.collect(new SampleData(1L, "1-12", toEpochMillis(now.plusMinutes(11L))));
+        Thread.sleep(millis);
+        System.out.println("out 1-11");
+        ctx.collect(new SampleData(1L, "1-11", toEpochMillis(now.plusMinutes(10L))));
+        Thread.sleep(millis);
+        System.out.println("out 1-10");
+        ctx.collect(new SampleData(1L, "1-10", toEpochMillis(now.plusMinutes(9L))));
+
 //        Thread.sleep(millis);
 //        ctx.collect(new SampleData(2L, "2-5", toEpochMillis(now.plusMinutes(4L))));
 //        Thread.sleep(1000L);

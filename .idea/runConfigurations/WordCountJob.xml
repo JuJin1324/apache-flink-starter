@@ -4,7 +4,7 @@
     <module name="apache-flink-starter" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="practice.apache.flink.watermark.*" />
+        <option name="PATTERN" value="practice.apache.flink.watermark.jobs.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
