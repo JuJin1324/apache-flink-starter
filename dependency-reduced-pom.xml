@@ -87,7 +87,7 @@
               </filters>
               <transformers>
                 <transformer>
-                  <mainClass>practice.apache.flink.StreamingJob</mainClass>
+                  <mainClass>practice.apache.flink.WordCountJob</mainClass>
                 </transformer>
               </transformers>
             </configuration>

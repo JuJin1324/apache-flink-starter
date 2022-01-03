@@ -157,7 +157,7 @@
 > 예시) `./bin/flink run apache-flink-starter-0.1-SNAPSHOT.jar`
 >
 > `-c`: Main class 지정    
-> 예시) `./bin/flink run -c practice.apache.flink.StreamingJob apache-flink-starter-0.1-SNAPSHOT.jar`
+> 예시) `./bin/flink run -c practice.apache.flink.WordCountJob apache-flink-starter-0.1-SNAPSHOT.jar`
 >
 > `-d`: Daemon 실행      
 > 

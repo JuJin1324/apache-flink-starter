@@ -162,7 +162,7 @@ under the License.
 							</filters>
 							<transformers>
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>practice.apache.flink.StreamingJob</mainClass>
+									<mainClass>practice.apache.flink.WordCountJob</mainClass>
 								</transformer>
 							</transformers>
 						</configuration>

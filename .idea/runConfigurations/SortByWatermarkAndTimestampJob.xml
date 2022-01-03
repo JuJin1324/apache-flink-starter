@@ -1,10 +1,10 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="StreamingJob" type="Application" factoryName="Application" nameIsGenerated="true">
-    <option name="MAIN_CLASS_NAME" value="practice.apache.flink.StreamingJob" />
+  <configuration default="false" name="SortByWatermarkAndTimestampJob" type="Application" factoryName="Application" nameIsGenerated="true">
+    <option name="MAIN_CLASS_NAME" value="practice.apache.flink.watermark.SortByWatermarkAndTimestampJob" />
     <module name="apache-flink-starter" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="practice.apache.flink.*" />
+        <option name="PATTERN" value="practice.apache.flink.watermark.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>
