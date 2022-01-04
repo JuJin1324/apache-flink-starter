@@ -4,6 +4,7 @@ import org.apache.flink.api.common.ExecutionConfig;
 import org.apache.flink.api.common.typeutils.TypeSerializer;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.windowing.assigners.WindowAssigner;
+import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.api.windowing.triggers.ProcessingTimeTrigger;
 import org.apache.flink.streaming.api.windowing.triggers.Trigger;
 import org.apache.flink.streaming.api.windowing.windows.TimeWindow;
@@ -16,15 +17,24 @@ import java.util.Collections;
  * Created Date : 2022/01/03
  */
 public class CustomProcessTimeWindows extends WindowAssigner<Object, TimeWindow> {
+    private final long windowSizeMs;
+
     private Long startTime;
+
+    private CustomProcessTimeWindows(long windowSizeMs) {
+        this.windowSizeMs = windowSizeMs;
+    }
+
+    public static CustomProcessTimeWindows of(long windowSizeMs) {
+        return new CustomProcessTimeWindows(windowSizeMs);
+    }
 
     @Override
     public Collection<TimeWindow> assignWindows(Object element, long timestamp, WindowAssignerContext context) {
-        long windowSize = 5 * 1000L;
-        if (startTime == null || context.getCurrentProcessingTime() - startTime >= windowSize) {
+        if (startTime == null || context.getCurrentProcessingTime() - startTime >= windowSizeMs) {
             startTime = context.getCurrentProcessingTime();
         }
-        long endTime = startTime + windowSize;
+        long endTime = startTime + windowSizeMs;
 
         return Collections.singletonList(new TimeWindow(startTime, endTime));
     }

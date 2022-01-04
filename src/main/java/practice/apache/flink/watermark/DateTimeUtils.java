@@ -16,12 +16,6 @@ import java.time.ZoneId;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DateTimeUtils implements Serializable {
-    public static Long toEpochMillis(LocalDateTime dateTimeUTC) {
-        return dateTimeUTC
-                .atZone(ZoneId.of("UTC"))
-                .toInstant()
-                .toEpochMilli();
-    }
 
     public static LocalDateTime toLocalDateTime(Long epochMillis, ZoneId resZoneId) {
         return Instant.ofEpochMilli(epochMillis)

@@ -3,6 +3,7 @@ package practice.apache.flink.watermark.jobs;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
+import org.apache.flink.streaming.api.windowing.time.Time;
 import practice.apache.flink.watermark.*;
 
 import java.time.Duration;
@@ -31,7 +32,7 @@ public class SortByProcessTimeWindowJob {
         DataStream<SampleData> sortedDateStream = dataStream
                 .keyBy(SampleData::getKey)
 //                .window(TumblingProcessingTimeWindows.of(Time.minutes(1)))
-                .window(new CustomProcessTimeWindows())
+                .window(CustomProcessTimeWindows.of(5000))
                 .process(new SortByTimeWindowFunction())
                 .name("sort by process time")
                 .setParallelism(4);
