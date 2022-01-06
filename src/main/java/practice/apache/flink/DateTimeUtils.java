@@ -1,4 +1,4 @@
-package practice.apache.flink.watermark;
+package practice.apache.flink;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
