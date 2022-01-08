@@ -183,7 +183,14 @@
 ### 외부 애플리케이션에서 Keyed State 에 접근
 > 외부 애플리케이션에서 Key 로 쿼리 가능한 상태 서비스를 사용하려면 플링크 설치 디렉터리 안에 opt 디렉터리에서 
 > flink-queryable-state-runtime-X.X.X.jar 파일을 lib 디렉터리로 복사한다.   
-> 쿼리가 가능한 상태로 만들고 싶은 상태 Descriptor 에 `.setQueryable("상태명");` 을 추가한다. 
+> 쿼리가 가능한 상태로 만들고 싶은 상태 Descriptor 에 `.setQueryable("상태명");` 을 추가한다.
+
+### 상태 백앤드
+> 플링크는 3가지 상태 백앤드를 제공한다. MemoryStateBackend, FsStateBackend, RocksDBStateBackend 
+> 
+> MemoryStateBackend 는 체크 포인트를 수행할 때 상태를 잡 매니저(Master Node) 로 보내고 잡 매니저는 이를 힙 메모리에 저장한다.
+> 따라서 애플리케이션의 전체 상태는 잡 매니저의 메모리 크기에 맞아야 한다. 잡 매니저에 장애가 발생하면 상태가 모두 사라지므로 
+> 개발이나 디버깅 단계에서만 사용할 것이 권장된다.
 
 ## Flink Cluster 설정
 ### Master Node

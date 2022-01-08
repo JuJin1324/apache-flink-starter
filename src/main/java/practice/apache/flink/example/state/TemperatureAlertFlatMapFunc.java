@@ -23,6 +23,9 @@ public class TemperatureAlertFlatMapFunc extends RichFlatMapFunction<Temperature
     public void open(Configuration parameters) {
         ValueStateDescriptor<Double> lastTempDescriptor =
                 new ValueStateDescriptor<>("lastTemp", Double.class);
+        lastTempDescriptor.setQueryable("lastTemp");
+        // TODO: 쿼리 가능 상태로 변경 및 쿼리 클라이언트 생성
+
         lastTempState = getRuntimeContext().getState(lastTempDescriptor);
     }
 
