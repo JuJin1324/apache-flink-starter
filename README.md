@@ -180,6 +180,11 @@
 ### Log
 > 실행 로그 위치: log4j2.properties 에 설정된 위치
 
+### 외부 애플리케이션에서 Keyed State 에 접근
+> 외부 애플리케이션에서 Key 로 쿼리 가능한 상태 서비스를 사용하려면 플링크 설치 디렉터리 안에 opt 디렉터리에서 
+> flink-queryable-state-runtime-X.X.X.jar 파일을 lib 디렉터리로 복사한다.   
+> 쿼리가 가능한 상태로 만들고 싶은 상태 Descriptor 에 `.setQueryable("상태명");` 을 추가한다. 
+
 ## Flink Cluster 설정
 ### Master Node
 > Master 프로세스는 주로 애플리케이션 자원 관리 및 조율을 담당함으로 적당한 수준의 메모리만 필요하다.   
